@@ -119,11 +119,11 @@ export interface IAwardCategorized {
     typeOfElement : typeOfElement,
 }
 
-export interface IGroupedElement {
-    developer : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[],
-    student : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[],
-    mun : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[]
+export type IGroupedElement = {
+    [key in typeOfTitle] : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[]
 }
 
+export const possibleTitle = ["student", "developer", "mun"] as const;
+export type typeOfTitle = typeof possibleTitle[number];
 export type typeOfElement = "project" | "activity" | "award";
 export type elementType = IActivity | IAward | IProject;

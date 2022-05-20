@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { RawData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType } from './types';
+import type { RawData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, typeOfTitle } from './types';
 
 const queryAll = '{ allActivities { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthStart yearStart monthEnd yearEnd } } } allProjects { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthStart yearStart monthEnd yearEnd } } } allAwards { title yearAchieved monthAchieved proof { blurhash colors { hex } id } details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on InstitutionRecord { institution institutionLink } } } }'
 
@@ -58,9 +58,9 @@ export async function getContentData (){
 ]
 
     const groupedElement : IGroupedElement = {
-        student : categorizedElement.filter((element) => element.partOfStudent),
-        developer : categorizedElement.filter((element) => element.partOfDeveloper),
-        mun : categorizedElement.filter((element) => element.partOfMunEnthusiast)
+        "student" : categorizedElement.filter((element) => element.partOfStudent),
+        "developer" : categorizedElement.filter((element) => element.partOfDeveloper),
+        "mun" : categorizedElement.filter((element) => element.partOfMunEnthusiast)
     }
 
     return groupedElement;
