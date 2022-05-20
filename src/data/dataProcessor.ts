@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { RawData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement } from './types';
+import type { RawData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType } from './types';
 
 const queryAll = '{ allActivities { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthEnd monthStart } }} allProjects { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthEnd monthStart } } } allAwards { title yearAchieved monthAchieved proof { blurhash colors {hex} id } details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on InstitutionRecord { institution institutionLink } } } }'
 
@@ -29,37 +29,42 @@ async function getRawContentData (){
     }
 }
 
-async function processRawContentData (){
+
+export async function getContentData (){
     const rawData = await getRawContentData();
     const activityList = rawData.data.allActivities;
     const projectList = rawData.data.allProjects;
-    const awardList = rawData.data.allAward;
-
+    const awardList = rawData.data.allAwards;
+    
+    function detailsDismantler (element : elementType) {
+        const {details, ...rest } = element;
+        const newElement = Object.assign(rest,...details);
+        return newElement;
+    }
 
     const categorizedElement = [
-        ...activityList.map((activity) => {return {
-        ...activity,
-        typeOfElement : "activity" as typeOfElement
-    } as IActivityCategorized}),
-    ...projectList.map((project) => {return {
-        ...project,
-        typeOfElement : "project" as typeOfElement
-    } as IProjectCategorized }),
-    ...awardList.map((award) => {return {
-        ...award,
-        typeOfElement : "award" as typeOfElement
-    } as IAwardCategorized})
+        ...activityList.map(detailsDismantler).map((activity) => {return {
+            ...activity,
+            typeOfElement : "activity"
+        } as IActivityCategorized}),
+        ...projectList.map(detailsDismantler).map((project) => {return {
+            ...project,
+            typeOfElement : "project"
+        } as IProjectCategorized}),
+        ...(awardList.map(detailsDismantler)).map((award) => {return {
+            ...award,
+            typeOfElement : "award"
+        } as IAwardCategorized})
 ]
 
     const groupedElement : IGroupedElement = {
-        student : categorizedElement.filter((element) => element.details[element.details.length - 1].partOfMunEnthusiast)
+        student : categorizedElement.filter((element) => element.partOfStudent),
+        developer : categorizedElement.filter((element) => element.partOfDeveloper),
+        mun : categorizedElement.filter((element) => element.partOfMunEnthusiast)
     }
 
+    return groupedElement;
 }
-
-export async function getContentData () {
-    return await processRawContentData()
-    }
 
 export const titleList = writable(["Aspiring Web Developer", "Student of STEI ITB"]);
 

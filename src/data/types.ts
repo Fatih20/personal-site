@@ -46,8 +46,8 @@ export interface IProject {
 
 export interface IAward {
     title : string,
-    yearAchieved: 2021,
-    monthAchieved: 11,
+    yearAchieved: number,
+    monthAchieved: number,
     details : [
         {
             institution : string,
@@ -66,19 +66,49 @@ export interface RawData {
     data : {
         allActivities : IActivity[],
         allProjects : IProject[],
-        allAward : IAward[]
+        allAwards : IAward[]
     }
 }
 
-export interface IProjectCategorized extends IProject {
-    typeOfElement : typeOfElement
+export interface IProjectCategorized {
+    title : string,
+    institution : string,
+    insitutionLink : string,
+    ongoing: boolean,
+    monthEnd : number,
+    monthStart : number,
+    description : string,
+    partOfStudent : boolean,
+    partOfDeveloper : boolean,
+    partOfMunEnthusiast: boolean,
+    typeOfElement : typeOfElement,
 }
 
-export interface IActivityCategorized extends IActivity {
-    typeOfElement : typeOfElement
+export interface IActivityCategorized {
+    title : string,
+    institution : string,
+    insitutionLink : string,
+    ongoing: boolean,
+    monthEnd : number,
+    monthStart : number,
+    description : string,
+    partOfStudent : boolean,
+    partOfDeveloper : boolean,
+    partOfMunEnthusiast: boolean,
+    typeOfElement : typeOfElement,
+
 }
-export interface IAwardCategorized extends IAward {
-    typeOfElement : typeOfElement
+
+export interface IAwardCategorized {
+    title : string,
+    yearAchieved: 2021,
+    monthAchieved: 11,
+    institution : string,
+    insitutionLink : string,
+    partOfStudent : boolean,
+    partOfDeveloper : boolean,
+    partOfMunEnthusiast: boolean,
+    typeOfElement : typeOfElement,
 }
 
 export interface IGroupedElement {
@@ -88,3 +118,4 @@ export interface IGroupedElement {
 }
 
 export type typeOfElement = "project" | "activity" | "award";
+export type elementType = IActivity | IAward | IProject;
