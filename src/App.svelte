@@ -1,30 +1,42 @@
 <script lang="ts">
-	export let name: string;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <div class="header-content">
+    <h2>Hello! My name is</h2>
+    <h1>Fatih Nararya R. I.</h1>
+  </div>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+  main {
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto;
+    /* border: solid 1px white; */
+  }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+  .header-content {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    justify-content: start;
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+    /* border: solid 1px white; */
+  }
+
+  .header-content * {
+    text-align: left;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  @media (min-width: 640px) {
+    main {
+      max-width: none;
+    }
+  }
 </style>
