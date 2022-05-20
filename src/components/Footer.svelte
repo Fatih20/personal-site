@@ -44,10 +44,10 @@
     background-color: rgba(0, 0, 0, 0);
     border: none;
     color: white;
-    font-size: 2em;
-    display: flex;
-    justify-content: center;
     cursor: pointer;
+    display: flex;
+    font-size: 2em;
+    justify-content: center;
   }
 
   .email-button {
