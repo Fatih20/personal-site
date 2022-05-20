@@ -1,4 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { getRawData } from "../data/dataProcessor";
+  let data;
+
+  onMount(async () => {
+    data = await getRawData();
+    console.log(data);
+  });
 </script>
 
 <head>
