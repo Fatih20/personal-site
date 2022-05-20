@@ -7,8 +7,10 @@ export interface IActivity {
         },
         {
             ongoing: boolean,
+            monthStart : number,
+            yearStart : number,
             monthEnd : number,
-            monthStart : number
+            yearEnd : number
         },
         {
             description : string
@@ -30,8 +32,10 @@ export interface IProject {
         },
         {
             ongoing: boolean,
+            monthStart : number,
+            yearStart : number,
             monthEnd : number,
-            monthStart : number
+            yearEnd : number
         },
         {
             description : string
@@ -75,8 +79,10 @@ export interface IProjectCategorized {
     institution : string,
     insitutionLink : string,
     ongoing: boolean,
-    monthEnd : number,
     monthStart : number,
+    yearStart : number,
+    monthEnd : number,
+    yearEnd : number
     description : string,
     partOfStudent : boolean,
     partOfDeveloper : boolean,
@@ -89,8 +95,10 @@ export interface IActivityCategorized {
     institution : string,
     insitutionLink : string,
     ongoing: boolean,
-    monthEnd : number,
     monthStart : number,
+    yearStart : number,
+    monthEnd : number,
+    yearEnd : number
     description : string,
     partOfStudent : boolean,
     partOfDeveloper : boolean,
