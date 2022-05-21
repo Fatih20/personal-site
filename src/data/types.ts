@@ -66,7 +66,7 @@ export interface IAward {
 }
 
 
-export interface RawData {
+export interface IRawContentData {
     data : {
         allActivities : IActivity[],
         allProjects : IProject[],
@@ -121,6 +121,23 @@ export interface IAwardCategorized {
 
 export type IGroupedElement = {
     [key in typeOfTitle] : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[]
+}
+
+export interface IRawContactData {
+    data : {
+        contactList : {
+            contactList : IContact[]
+        }
+    }
+} 
+
+const possibleIconPackages = ["brands", "solid", "regular"] as const;
+
+export interface IContact {
+    link : string,
+    typeOfContact : string,
+    iconPackage : `fa-${typeof possibleIconPackages[number]}`,
+    iconName : `fa-${string}`
 }
 
 export const possibleTitle = ["student", "developer", "mun"] as const;
