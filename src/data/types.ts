@@ -1,68 +1,39 @@
+export interface IInstitutionInDetail {
+    institution : string,
+    institutionLink : string
+}
+
+export interface IDurationInDetail {
+    ongoing: boolean,
+    monthStart : number,
+    yearStart : number,
+    monthEnd : number,
+    yearEnd : number
+}
+
+export interface IDescriptionInDetail {
+    description : string
+}
+
+export interface IPartOfXInDetail {
+
+}
+
 export interface IActivity {
     title : string,
-    details : [
-        {
-            institution : string,
-            insitutionLink : string
-        },
-        {
-            ongoing: boolean,
-            monthStart : number,
-            yearStart : number,
-            monthEnd : number,
-            yearEnd : number
-        },
-        {
-            description : string
-        },
-        {
-            partOfStudent : boolean,
-            partOfDeveloper : boolean,
-            partOfMunEnthusiast: boolean,
-        }
-    ]
+    details : [IInstitutionInDetail, IDurationInDetail, IDescriptionInDetail, IPartOfXInDetail]
 }
 
 export interface IProject {
     title : string,
-    details : [
-        {
-            institution : string,
-            insitutionLink : string
-        },
-        {
-            ongoing: boolean,
-            monthStart : number,
-            yearStart : number,
-            monthEnd : number,
-            yearEnd : number
-        },
-        {
-            description : string
-        },
-        {
-            partOfStudent : boolean,
-            partOfDeveloper : boolean,
-            partOfMunEnthusiast: boolean,
-        }
-    ]
+    details : [IInstitutionInDetail, IDurationInDetail, IDescriptionInDetail, IPartOfXInDetail]
 }
 
 export interface IAward {
     title : string,
     yearAchieved: number,
     monthAchieved: number,
-    details : [
-        {
-            institution : string,
-            insitutionLink : string
-        },
-        {
-            partOfStudent : boolean,
-            partOfDeveloper : boolean,
-            partOfMunEnthusiast: boolean,
-        }
-    ]
+    details : [IInstitutionInDetail, IPartOfXInDetail]
 }
 
 
@@ -84,9 +55,9 @@ export interface IProjectCategorized {
     monthEnd : number,
     yearEnd : number
     description : string,
-    partOfStudent : boolean,
-    partOfDeveloper : boolean,
-    partOfMunEnthusiast: boolean,
+    student : boolean,
+    developer : boolean,
+    mun: boolean,
     typeOfElement : typeOfElement,
 }
 
@@ -100,9 +71,9 @@ export interface IActivityCategorized {
     monthEnd : number,
     yearEnd : number
     description : string,
-    partOfStudent : boolean,
-    partOfDeveloper : boolean,
-    partOfMunEnthusiast: boolean,
+    student : boolean,
+    developer : boolean,
+    mun: boolean,
     typeOfElement : typeOfElement,
 
 }
@@ -113,14 +84,14 @@ export interface IAwardCategorized {
     monthAchieved: 11,
     institution : string,
     insitutionLink : string,
-    partOfStudent : boolean,
-    partOfDeveloper : boolean,
-    partOfMunEnthusiast: boolean,
+    student : boolean,
+    developer : boolean,
+    mun: boolean,
     typeOfElement : typeOfElement,
 }
 
-export type IGroupedElement = {
-    [key in typeOfTitle] : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[]
+export interface IGroupedElement {
+    [key : string] : (IProjectCategorized | IActivityCategorized | IAwardCategorized)[]
 }
 
 export interface IRawContactData {
@@ -140,7 +111,18 @@ export interface IContact {
     iconName : `fa-${string}`
 }
 
-export const possibleTitle = ["student", "developer", "mun"] as const;
-export type typeOfTitle = typeof possibleTitle[number];
+export interface IRawTitleCodeToTitleData {
+    data : {
+        titlecodetotitle : {
+            titlecodetotitle : ITitleCodeToTitle
+        },
+        titlecodearray : string[]
+    }
+}
+
+export interface ITitleCodeToTitle {
+    [key : string] : string
+}
+
 export type typeOfElement = "project" | "activity" | "award";
 export type elementType = IActivity | IAward | IProject;

@@ -1,12 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { getContentData } from "../data/dataProcessor";
-  let data;
-
-  onMount(async () => {
-    data = await getContentData();
-    console.log(data);
-  });
 </script>
 
 <head>
