@@ -21,6 +21,13 @@
   $: maxIndex = possibleTitleList.length - 1;
 
   let nthTitle = 0;
+  $: {
+    if (nthTitle > 2) {
+      nthTitle = 0;
+    } else if (nthTitle < 0) {
+      nthTitle = 2;
+    }
+  }
   $: currentTitleCode = possibleTitleList[nthTitle];
   $: currentTitle = titleCodeToTitleData[currentTitleCode];
 
@@ -79,22 +86,6 @@
     ongoingStatusSeen,
     visibilityOfElementType
   );
-
-  function changeTitle(increment) {
-    if (increment) {
-      if (nthTitle === maxIndex) {
-        nthTitle = 0;
-      } else {
-        nthTitle += 1;
-      }
-    } else {
-      if (nthTitle === 0) {
-        nthTitle = maxIndex;
-      } else {
-        nthTitle -= 1;
-      }
-    }
-  }
 </script>
 
 <head>
@@ -105,11 +96,11 @@
 
 <main>
   <div class="title-container">
-    <button class="title-switcher" on:click={() => changeTitle(true)}>
+    <button class="title-switcher" on:click={() => (nthTitle += 1)}>
       <i class="fa-solid fa-caret-left" />
     </button>
     <h1 id="title">{currentTitle}</h1>
-    <button class="title-switcher" on:click={() => changeTitle(false)}>
+    <button class="title-switcher" on:click={() => (nthTitle -= 1)}>
       <i class="fa-solid fa-caret-right" />
     </button>
   </div>
