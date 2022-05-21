@@ -1,5 +1,28 @@
 <script lang="ts">
-  import Icon from "svelte-awesome";
+  import { onMount } from "svelte";
+  import { getContactData } from "../data/dataProcessor";
+  import type { IContact } from "../data/types";
+  import { contactReady } from "../stores";
+
+  let contactData: IContact[];
+  let contactDataExceptEmail: IContact[];
+  let contactDataEmail: IContact;
+
+  onMount(async () => {
+    contactData = await getContactData();
+  });
+
+  $: {
+    if (contactData !== undefined) {
+      contactReady.set(true);
+      contactDataExceptEmail = contactData.filter(
+        (contact) => contact.typeOfContact !== "Email"
+      );
+      contactDataEmail = contactData.filter(
+        (contact) => contact.typeOfContact === "Email"
+      )[0];
+    }
+  }
 </script>
 
 <head>
@@ -9,21 +32,23 @@
 </head>
 
 <main>
-  <div class="button-container">
-    <button class="icon-container">
-      <i class="fa-brands fa-github" />
-    </button>
-    <button class="icon-container">
-      <i class="fa-brands fa-linkedin-in" />
-    </button>
-    <button class="icon-container">
-      <i class="fa-brands fa-instagram" />
-    </button>
-  </div>
-  <button class="email-button">
-    <i class="fa-solid fa-envelope" />
-    <p>Shoot an email!</p>
-  </button>
+  {#if contactData !== undefined}
+    <div class="contact-container">
+      {#each contactDataExceptEmail as contact}
+        <button class="icon-container">
+          <i class={`${contact.iconPackage} ${contact.iconName}`} />
+        </button>
+      {/each}
+    </div>
+    {#if contactDataEmail !== undefined}
+      <button class="email-button">
+        <i
+          class={`${contactDataEmail.iconPackage} ${contactDataEmail.iconName}`}
+        />
+        <p>Shoot an email!</p>
+      </button>
+    {/if}
+  {/if}
 </main>
 
 <style>
@@ -33,7 +58,7 @@
     flex-direction: column;
     justify-content: center;
   }
-  .button-container {
+  .contact-container {
     align-items: center;
     display: flex;
     justify-content: center;
