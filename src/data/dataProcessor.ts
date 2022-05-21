@@ -1,7 +1,18 @@
 import { writable } from 'svelte/store';
-import type { RawData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, typeOfTitle } from './types';
+import type { IRawContentData, IRawContactData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, typeOfTitle } from './types';
 
 const queryAll = '{ allActivities { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthStart yearStart monthEnd yearEnd } } } allProjects { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthStart yearStart monthEnd yearEnd } } } allAwards { title yearAchieved monthAchieved proof { blurhash colors { hex } id } details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on InstitutionRecord { institution institutionLink } } } }'
+
+const queryContact = `{
+    contactList {
+      contactList {
+        iconName
+        iconPackage
+        typeOfContact
+        link
+      }
+    }
+  }`
 
 async function getRawContentData (){
     const token = '0f152262756de7481e3f7e037fee93';
@@ -22,7 +33,7 @@ async function getRawContentData (){
         }
         )
     
-        const data = await response.json() as RawData;
+        const data = await response.json() as IRawContentData;
         return data;
     } catch (err) {
         console.log(err)
@@ -80,3 +91,36 @@ export const AchievementList = writable({
         }
     ]
 })
+
+
+async function getRawContactData (){
+    const token = '0f152262756de7481e3f7e037fee93';
+
+    try {
+        const response = await fetch(
+        'https://graphql.datocms.com/',
+        {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+            query: queryContact
+            }),
+        }
+        )
+    
+        const data = await response.json() as IRawContactData;
+        return data;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export async function getContactData (){
+    const rawData = await getRawContactData();
+    const processedData = rawData.data.contactList.contactList;
+    return processedData
+}
