@@ -68,7 +68,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    color: white;
+    color: var(--text-element-color);
     cursor: pointer;
     display: flex;
     font-size: 2em;
@@ -76,10 +76,13 @@
   }
 
   .email-button {
-    /* If you wonder why this button for some reason has a padding, it comes from global.css */
     align-items: center;
+    background-color: var(--foreground-element-color);
+    border: none;
+    color: var(--text-element-color);
     display: flex;
     justify-content: center;
+    padding: 0.5em;
     gap: 1em;
   }
 
