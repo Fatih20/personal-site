@@ -99,7 +99,9 @@
     <button class="title-switcher" on:click={() => (nthTitle += 1)}>
       <i class="fa-solid fa-caret-left" />
     </button>
-    <h1 id="title">{currentTitle}</h1>
+    <div id="title-box">
+      <h1 id="title">{currentTitle}</h1>
+    </div>
     <button class="title-switcher" on:click={() => (nthTitle -= 1)}>
       <i class="fa-solid fa-caret-right" />
     </button>
@@ -136,13 +138,32 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    gap: 1em;
     justify-content: start;
   }
 
   .title-container {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     justify-content: center;
+    text-align: center;
+    width: 100%;
+
+    /* border: solid 1px white; */
+  }
+
+  #title-box {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  #title {
+    font-size: 1.5em;
 
     /* border: solid 1px white; */
   }
@@ -170,7 +191,7 @@
     font-size: 2em;
     margin: 0;
     justify-content: center;
-    padding: none;
+    padding: 0;
 
     /* border: solid 1px white; */
   }
