@@ -4,17 +4,12 @@
   import type { IContact } from "../data/types";
   import { contactReady } from "../stores";
 
-  let contactData: IContact[];
+  export let contactData: IContact[];
   let contactDataExceptEmail: IContact[];
   let contactDataEmail: IContact;
 
-  onMount(async () => {
-    contactData = await getContactData();
-  });
-
   $: {
     if (contactData !== undefined) {
-      contactReady.set(true);
       contactDataExceptEmail = contactData.filter(
         (contact) => contact.typeOfContact !== "Email"
       );
@@ -32,22 +27,30 @@
 </head>
 
 <main>
-  {#if contactData !== undefined}
-    <div class="contact-container">
-      {#each contactDataExceptEmail as contact}
-        <button class="icon-container">
-          <i class={`${contact.iconPackage} ${contact.iconName}`} />
-        </button>
-      {/each}
-    </div>
-    {#if contactDataEmail !== undefined}
-      <button class="email-button">
-        <i
-          class={`${contactDataEmail.iconPackage} ${contactDataEmail.iconName}`}
-        />
-        <p>Shoot an email!</p>
+  <div class="contact-container">
+    {#each contactDataExceptEmail as contact}
+      <button
+        class="icon-container"
+        on:click={() => {
+          window.open(contact.link);
+        }}
+      >
+        <i class={`${contact.iconPackage} ${contact.iconName}`} />
       </button>
-    {/if}
+    {/each}
+  </div>
+  {#if contactDataEmail !== undefined}
+    <button
+      class="email-button"
+      on:click={() => {
+        window.open(`mailto:${contactDataEmail.link}`);
+      }}
+    >
+      <i
+        class={`${contactDataEmail.iconPackage} ${contactDataEmail.iconName}`}
+      />
+      <p>Shoot an email!</p>
+    </button>
   {/if}
 </main>
 
