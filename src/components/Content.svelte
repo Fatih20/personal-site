@@ -1,5 +1,14 @@
 <script lang="ts">
-  import type { IGroupedElement, ITitleCodeToTitle } from "../data/types";
+  import Activity from "./elementComponent/activity.svelte";
+  import type {
+    IGroupedElement,
+    ITitleCodeToTitle,
+    elementCategorizedType,
+    IProjectCategorized,
+    IActivityCategorized,
+  } from "../data/types";
+  import Project from "./elementComponent/project.svelte";
+  import Award from "./elementComponent/award.svelte";
 
   export let contentData: IGroupedElement;
   export let titleCodeToTitleData: ITitleCodeToTitle;
@@ -8,6 +17,13 @@
   $: maxIndex = possibleTitleList.length - 1;
 
   let nthTitle = 0;
+  $: currentTitleCode = possibleTitleList[nthTitle];
+  $: currentTitle = titleCodeToTitleData[currentTitleCode];
+  let showAllElement = true;
+
+  $: shownElementList = showAllElement
+    ? contentData[currentTitleCode]
+    : (contentData[currentTitleCode].slice(0, 1) as any);
 
   function changeTitle(increment) {
     if (increment) {
@@ -42,7 +58,17 @@
       <i class="fa-solid fa-caret-right" />
     </button>
   </div>
-  <div class="element-container" />
+  <div class="element-container">
+    {#each shownElementList as element}
+      {#if element.typeOfElement === "activity"}
+        <Activity activityProps={element} />
+      {:else if element.typeOfElement === "project"}
+        <Project projectProps={element} />
+      {:else if element.typeOfElement === "award"}
+        <Award awardProps={element} />
+      {/if}
+    {/each}
+  </div>
 </main>
 
 <style>

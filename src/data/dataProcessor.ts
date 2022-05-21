@@ -22,11 +22,14 @@ const queryAll = `
         ... on DurationRecord {
           ongoing
           monthEnd
+          yearEnd
           monthStart
+          yearStart
         }
       }}
     allProjects {
       title
+      projectLink
       details {
         ... on PartOfXRecord {
           student
@@ -36,14 +39,12 @@ const queryAll = `
         ... on DescriptionRecord {
           description
         }
-        ... on InstitutionRecord {
-          institution
-          institutionLink
-        }
         ... on DurationRecord {
           ongoing
           monthEnd
+          yearEnd
           monthStart
+          yearStart
         }
       }
     }
@@ -69,7 +70,6 @@ const queryAll = `
         }
       }
     }  
-    
   }      
   `
 
@@ -165,24 +165,17 @@ export async function getContentData (titleCodeToTitle : ITitleCodeToTitle){
     const categorizedElement = [
         ...activityList.map(detailsDismantler).map((activity) => {return {
             ...activity,
-            typeOfElement : "activity"
+            typeOfElement : "activity",
         } as IActivityCategorized}),
         ...projectList.map(detailsDismantler).map((project) => {return {
             ...project,
-            typeOfElement : "project"
+            typeOfElement : "project",
         } as IProjectCategorized}),
         ...(awardList.map(detailsDismantler)).map((award) => {return {
             ...award,
             typeOfElement : "award"
         } as IAwardCategorized})
 ]
-
-
-    // const groupedElement : IGroupedElement = {
-    //     "student" : categorizedElement.filter((element : any) => element.partOfStudent),
-    //     "developer" : categorizedElement.filter((element : any) => element.partOfDeveloper),
-    //     "mun" : categorizedElement.filter((element : any) => element.partOfMunEnthusiast)
-    // }
 
     const groupedElement : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
         const object = {}

@@ -7,8 +7,8 @@ export interface IDurationInDetail {
     ongoing: boolean,
     monthStart : number,
     yearStart : number,
-    monthEnd : number,
-    yearEnd : number
+    monthEnd : number | null,
+    yearEnd : number | null
 }
 
 export interface IDescriptionInDetail {
@@ -26,7 +26,8 @@ export interface IActivity {
 
 export interface IProject {
     title : string,
-    details : [IInstitutionInDetail, IDurationInDetail, IDescriptionInDetail, IPartOfXInDetail]
+    projectLink : string,
+    details : [IDurationInDetail, IDescriptionInDetail, IPartOfXInDetail]
 }
 
 export interface IAward {
@@ -47,18 +48,17 @@ export interface IRawContentData {
 
 export interface IProjectCategorized {
     title : string,
-    institution : string,
-    insitutionLink : string,
+    projectLink : string,
     ongoing: boolean,
     monthStart : number,
     yearStart : number,
-    monthEnd : number,
-    yearEnd : number
+    monthEnd : number | null,
+    yearEnd : number | null,
     description : string,
     student : boolean,
     developer : boolean,
     mun: boolean,
-    typeOfElement : typeOfElement,
+    typeOfElement : "project",
 }
 
 export interface IActivityCategorized {
@@ -68,14 +68,13 @@ export interface IActivityCategorized {
     ongoing: boolean,
     monthStart : number,
     yearStart : number,
-    monthEnd : number,
-    yearEnd : number
+    monthEnd : number | null,
+    yearEnd : number | null,
     description : string,
     student : boolean,
     developer : boolean,
     mun: boolean,
-    typeOfElement : typeOfElement,
-
+    typeOfElement : "activity"
 }
 
 export interface IAwardCategorized {
@@ -87,7 +86,7 @@ export interface IAwardCategorized {
     student : boolean,
     developer : boolean,
     mun: boolean,
-    typeOfElement : typeOfElement,
+    typeOfElement : "award"
 }
 
 export interface IGroupedElement {
@@ -126,3 +125,4 @@ export interface ITitleCodeToTitle {
 
 export type typeOfElement = "project" | "activity" | "award";
 export type elementType = IActivity | IAward | IProject;
+export type elementCategorizedType = IActivityCategorized | IAwardCategorized | IProjectCategorized; 
