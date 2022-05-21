@@ -123,6 +123,8 @@ export interface ITitleCodeToTitle {
     [key : string] : string
 }
 
-export type typeOfElement = "project" | "activity" | "award";
+export const typeOfElementList = ["project", "activity", "award"] as const;
+
+export type typeOfElement = typeof typeOfElementList[number];
 export type elementType = IActivity | IAward | IProject;
 export type elementCategorizedType = IActivityCategorized | IAwardCategorized | IProjectCategorized; 

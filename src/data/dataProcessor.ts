@@ -179,15 +179,20 @@ export async function getContentData (titleCodeToTitle : ITitleCodeToTitle){
 ]
     console.log(categorizedElement);
 
-    const groupedElement : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
+    const groupedElementFromNew : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
         const object = {}
-        object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]))
+        object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]), true)
         return object
     }))
 
-    console.log(groupedElement);
+    const groupedElementFromOld : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
+        const object = {}
+        object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]), false)
+        return object
+    }))
+    
+    return [groupedElementFromNew, groupedElementFromOld] as const;
 
-    return groupedElement;
 }
 
 

@@ -44,18 +44,18 @@ export function monthAndYearGenerator (element : elementCategorizedType) {
     }
 }
 
-export function sortElementWrapper (arrayOfElement : elementCategorizedType[]) {
+export function sortElementWrapper (arrayOfElement : elementCategorizedType[], fromNew : boolean) {
     let sortedOngoingElement = sortElement(arrayOfElement.filter((element) => 
         (element.typeOfElement === "activity" || element.typeOfElement === "project") ? element.ongoing : false
-    ))
+    ), fromNew)
     let sortedDoneElement = sortElement(arrayOfElement.filter((element) => 
     (element.typeOfElement === "activity" || element.typeOfElement === "project") ? !element.ongoing : true
-))
+), fromNew)
     return [...sortedOngoingElement, ...sortedDoneElement]
 }
 
 
-function sortElement (arrayOfElement : elementCategorizedType[]){
+function sortElement (arrayOfElement : elementCategorizedType[], fromNew : boolean){
     if (arrayOfElement.length <= 1) {
         return arrayOfElement
     }
@@ -73,6 +73,12 @@ function sortElement (arrayOfElement : elementCategorizedType[]){
             olderElement.push(element)
         }
     })
-    return [...sortElement(newerElement), currentElement, ...sortElement(olderElement), ]
+
+    if (fromNew) {
+        return [...sortElement(newerElement, fromNew), currentElement, ...sortElement(olderElement, fromNew)]
+    } else {
+        return [...sortElement(olderElement, fromNew), currentElement, ...sortElement(newerElement, fromNew)]
+
+    }
 
 }
