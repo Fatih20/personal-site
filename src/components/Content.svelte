@@ -133,7 +133,7 @@
   </div>
   <button
     class="show-toggle"
-    class:toggle-shown={!showAllElement}
+    class:toggle-shown={!showAllElement && usedData.length > 1}
     on:click={() => (showAllElement = true)}
   >
     <i class="fa-solid fa-caret-down" />
