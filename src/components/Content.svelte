@@ -20,25 +20,30 @@
   $: possibleTitleList = Object.keys(titleCodeToTitleData);
   $: maxIndex = possibleTitleList.length - 1;
 
-  let nthTitle = 0;
+  let nthTitle = 1;
   $: {
-    if (nthTitle > 2) {
+    if (nthTitle > maxIndex) {
       nthTitle = 0;
     } else if (nthTitle < 0) {
-      nthTitle = 2;
+      nthTitle = maxIndex;
     }
   }
   $: currentTitleCode = possibleTitleList[nthTitle];
   $: currentTitle = titleCodeToTitleData[currentTitleCode];
+  $: console.log(currentTitleCode);
+  $: console.log(currentTitle);
 
   let fromNew = true;
 
-  $: usedData = fromNew ? dataFromNew : dataFromOld;
+  $: usedData = (fromNew ? dataFromNew : dataFromOld)[currentTitleCode];
+  $: console.log(usedData);
 
   let showAllElement = false;
   $: shownElementList = showAllElement
-    ? (usedData[currentTitleCode] as elementCategorizedType[])
-    : (usedData[currentTitleCode].slice(0, 1) as elementCategorizedType[]);
+    ? (usedData as elementCategorizedType[])
+    : (usedData.slice(0, 1) as elementCategorizedType[]);
+
+  $: console.log(shownElementList);
 
   let ongoingStatusSeen: ongoingStatusSeenType = "all";
   let visibilityOfElementType: visibilityOfElementTypeType = {
@@ -86,6 +91,8 @@
     ongoingStatusSeen,
     visibilityOfElementType
   );
+
+  $: console.log(filteredElementList);
 </script>
 
 <head>
