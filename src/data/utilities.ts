@@ -74,11 +74,6 @@ function sortElement (arrayOfElement : elementCategorizedType[], fromNew : boole
         }
     })
 
-    if (fromNew) {
-        return [...sortElement(newerElement, fromNew), currentElement, ...sortElement(olderElement, fromNew)]
-    } else {
-        return [...sortElement(olderElement, fromNew), currentElement, ...sortElement(newerElement, fromNew)]
-
-    }
+    return (fromNew ? [...sortElement(newerElement, fromNew), currentElement, ...sortElement(olderElement, fromNew)] : [...sortElement(olderElement, fromNew), currentElement, ...sortElement(newerElement, fromNew)])
 
 }
