@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import { getContactData } from "../data/dataProcessor";
   import type { IContact } from "../data/types";
-  import { contactReady } from "../stores";
 
   export let contactData: IContact[];
   let contactDataExceptEmail: IContact[];
