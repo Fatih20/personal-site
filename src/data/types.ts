@@ -128,3 +128,5 @@ export const typeOfElementList = ["project", "activity", "award"] as const;
 export type typeOfElement = typeof typeOfElementList[number];
 export type elementType = IActivity | IAward | IProject;
 export type elementCategorizedType = IActivityCategorized | IAwardCategorized | IProjectCategorized; 
+export type visibilityOfElementTypeType = Record<typeOfElement, boolean>;
+

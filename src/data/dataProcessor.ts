@@ -177,8 +177,6 @@ export async function getContentData (titleCodeToTitle : ITitleCodeToTitle){
             typeOfElement : "award"
         } as IAwardCategorized})
 ]
-    console.log(categorizedElement);
-
     const groupedElementFromNew : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
         const object = {}
         object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]), true)

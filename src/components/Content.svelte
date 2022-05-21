@@ -1,26 +1,21 @@
 <script lang="ts">
   import Activity from "./elementComponent/activity.svelte";
+  import Project from "./elementComponent/project.svelte";
+  import Award from "./elementComponent/award.svelte";
+
   import type {
     IGroupedElement,
     ITitleCodeToTitle,
     elementCategorizedType,
-    IProjectCategorized,
-    IActivityCategorized,
-    typeOfElementList,
-    typeOfElement,
+    visibilityOfElementTypeType,
   } from "../data/types";
-  import Project from "./elementComponent/project.svelte";
-  import Award from "./elementComponent/award.svelte";
 
   export let contentData: readonly [IGroupedElement, IGroupedElement];
   export let titleCodeToTitleData: ITitleCodeToTitle;
 
-  const [dataFromNew, dataFromOld] = contentData;
-
-  let usedData: IGroupedElement;
-
   type ongoingStatusSeenType = "all" | "ongoing" | "done";
-  type visibilityOfElementTypeType = Record<typeOfElement, boolean>;
+
+  $: [dataFromNew, dataFromOld] = contentData;
 
   $: possibleTitleList = Object.keys(titleCodeToTitleData);
   $: maxIndex = possibleTitleList.length - 1;
@@ -30,6 +25,7 @@
   $: currentTitle = titleCodeToTitleData[currentTitleCode];
 
   let fromNew = true;
+
   $: usedData = fromNew ? dataFromNew : dataFromOld;
 
   let showAllElement = true;
@@ -74,7 +70,6 @@
           : true
       );
     }
-    console.log(result);
 
     return result;
   }
@@ -84,8 +79,6 @@
     ongoingStatusSeen,
     visibilityOfElementType
   );
-
-  $: console.log(filteredElementList);
 
   function changeTitle(increment) {
     if (increment) {
@@ -115,7 +108,7 @@
     <button class="title-switcher" on:click={() => changeTitle(true)}>
       <i class="fa-solid fa-caret-left" />
     </button>
-    <h1 id="title">{titleCodeToTitleData[possibleTitleList[nthTitle]]}</h1>
+    <h1 id="title">{currentTitle}</h1>
     <button class="title-switcher" on:click={() => changeTitle(false)}>
       <i class="fa-solid fa-caret-right" />
     </button>
