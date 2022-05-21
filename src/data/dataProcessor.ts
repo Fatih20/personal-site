@@ -1,7 +1,77 @@
-import { writable } from 'svelte/store';
-import type { IRawContentData, IRawContactData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, typeOfTitle } from './types';
+import type { IRawContentData, IRawContactData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, IRawTitleCodeToTitleData, ITitleCodeToTitle } from './types';
 
-const queryAll = '{ allActivities { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthStart yearStart monthEnd yearEnd } } } allProjects { title details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on DescriptionRecord { description } ... on InstitutionRecord { institution institutionLink } ... on DurationRecord { ongoing monthStart yearStart monthEnd yearEnd } } } allAwards { title yearAchieved monthAchieved proof { blurhash colors { hex } id } details { ... on PartOfXRecord { partOfStudent partOfDeveloper partOfMunEnthusiast } ... on InstitutionRecord { institution institutionLink } } } }'
+const token = '0f152262756de7481e3f7e037fee93';
+
+const queryAll = `
+{
+    allActivities {
+      title
+      details {
+        ... on PartOfXRecord {
+          student
+          developer
+          mun
+        }
+        ... on DescriptionRecord {
+          description
+        }
+        ... on InstitutionRecord {
+          institution
+          institutionLink
+        }
+        ... on DurationRecord {
+          ongoing
+          monthEnd
+          monthStart
+        }
+      }}
+    allProjects {
+      title
+      details {
+        ... on PartOfXRecord {
+          student
+          developer
+          mun
+        }
+        ... on DescriptionRecord {
+          description
+        }
+        ... on InstitutionRecord {
+          institution
+          institutionLink
+        }
+        ... on DurationRecord {
+          ongoing
+          monthEnd
+          monthStart
+        }
+      }
+    }
+  
+  allAwards {
+      title
+        yearAchieved
+        monthAchieved
+        proof {
+        blurhash
+        colors {hex}
+          id
+        }
+      details {
+        ... on PartOfXRecord {
+          student
+          developer
+          mun
+        }
+        ... on InstitutionRecord {
+          institution
+          institutionLink
+        }
+      }
+    }  
+    
+  }      
+  `
 
 const queryContact = `{
     contactList {
@@ -14,8 +84,45 @@ const queryContact = `{
     }
   }`
 
+const queryTitleCodeToTitle = `
+{
+    titlecodetotitle {
+      titlecodetotitle
+    }
+} 
+`
+
+export async function getRawTitleCodeToTitleData () {
+    try {
+        const response = await fetch(
+        'https://graphql.datocms.com/',
+        {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+            query: queryTitleCodeToTitle
+            }),
+        }
+        )
+    
+        const data = await response.json() as IRawTitleCodeToTitleData;
+        return data;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export async function getTitleCodeToTitleData () {
+    const rawData = await getRawTitleCodeToTitleData();
+    const processedData  = rawData.data.titlecodetotitle.titlecodetotitle
+    return processedData;
+}
+
 async function getRawContentData (){
-    const token = '0f152262756de7481e3f7e037fee93';
 
     try {
         const response = await fetch(
@@ -41,11 +148,13 @@ async function getRawContentData (){
 }
 
 
-export async function getContentData (){
+export async function getContentData (titleCodeToTitle : ITitleCodeToTitle){
     const rawData = await getRawContentData();
     const activityList = rawData.data.allActivities;
     const projectList = rawData.data.allProjects;
     const awardList = rawData.data.allAwards;
+
+    const possibleTitleCodeList = Object.keys(titleCodeToTitle);
     
     function detailsDismantler (element : elementType) {
         const {details, ...rest } = element;
@@ -68,33 +177,24 @@ export async function getContentData (){
         } as IAwardCategorized})
 ]
 
-    const groupedElement : IGroupedElement = {
-        "student" : categorizedElement.filter((element) => element.partOfStudent),
-        "developer" : categorizedElement.filter((element) => element.partOfDeveloper),
-        "mun" : categorizedElement.filter((element) => element.partOfMunEnthusiast)
-    }
+
+    // const groupedElement : IGroupedElement = {
+    //     "student" : categorizedElement.filter((element : any) => element.partOfStudent),
+    //     "developer" : categorizedElement.filter((element : any) => element.partOfDeveloper),
+    //     "mun" : categorizedElement.filter((element : any) => element.partOfMunEnthusiast)
+    // }
+
+    const groupedElement : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
+        const object = {}
+        object[possibleTitleCode] = categorizedElement.filter((element : any) => element[possibleTitleCode])
+        return object
+    }))
 
     return groupedElement;
 }
 
-export const titleList = writable(["Aspiring Web Developer", "Student of STEI ITB"]);
-
-export const AchievementList = writable({
-    "Aspiring Web Developer" : [
-        {
-            
-        }
-    ],
-    "Student of STEI ITB" : [
-        {
-
-        }
-    ]
-})
-
 
 async function getRawContactData (){
-    const token = '0f152262756de7481e3f7e037fee93';
 
     try {
         const response = await fetch(

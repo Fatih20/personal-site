@@ -3,16 +3,26 @@
   import Content from "./components/Content.svelte";
   import Footer from "./components/Footer.svelte";
   import { onMount } from "svelte";
-  import type { IContact, IGroupedElement } from "./data/types";
-  import { getContactData, getContentData } from "./data/dataProcessor";
+  import type {
+    IContact,
+    IGroupedElement,
+    ITitleCodeToTitle,
+  } from "./data/types";
+  import {
+    getContactData,
+    getContentData,
+    getTitleCodeToTitleData,
+  } from "./data/dataProcessor";
 
   let contentData: IGroupedElement;
   let contactData: IContact[];
+  let titleCodeToTitleData: ITitleCodeToTitle;
   let pageIsFinishedLoading = false;
 
   onMount(async () => {
-    contentData = await getContentData();
     contactData = await getContactData();
+    titleCodeToTitleData = await getTitleCodeToTitleData();
+    contentData = await getContentData(titleCodeToTitleData);
     pageIsFinishedLoading = true;
   });
 </script>
