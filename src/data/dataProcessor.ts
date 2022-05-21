@@ -1,4 +1,5 @@
 import type { IRawContentData, IRawContactData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, IRawTitleCodeToTitleData, ITitleCodeToTitle } from './types';
+import { sortElementWrapper } from './utilities';
 
 const token = '0f152262756de7481e3f7e037fee93';
 
@@ -176,12 +177,15 @@ export async function getContentData (titleCodeToTitle : ITitleCodeToTitle){
             typeOfElement : "award"
         } as IAwardCategorized})
 ]
+    console.log(categorizedElement);
 
     const groupedElement : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
         const object = {}
-        object[possibleTitleCode] = categorizedElement.filter((element : any) => element[possibleTitleCode])
+        object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]))
         return object
     }))
+
+    console.log(groupedElement);
 
     return groupedElement;
 }

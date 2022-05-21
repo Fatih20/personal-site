@@ -22,8 +22,8 @@
   let showAllElement = true;
 
   $: shownElementList = showAllElement
-    ? contentData[currentTitleCode]
-    : (contentData[currentTitleCode].slice(0, 1) as any);
+    ? (contentData[currentTitleCode] as elementCategorizedType[])
+    : (contentData[currentTitleCode].slice(0, 1) as elementCategorizedType[]);
 
   function changeTitle(increment) {
     if (increment) {
