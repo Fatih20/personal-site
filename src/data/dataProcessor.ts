@@ -1,4 +1,5 @@
 import type { IRawContentData, IRawContactData, typeOfElement, IProjectCategorized, IAwardCategorized, IActivityCategorized, IGroupedElement, elementType, IRawTitleCodeToTitleData, ITitleCodeToTitle } from './types';
+import { sortElementWrapper } from './utilities';
 
 const token = '0f152262756de7481e3f7e037fee93';
 
@@ -22,11 +23,14 @@ const queryAll = `
         ... on DurationRecord {
           ongoing
           monthEnd
+          yearEnd
           monthStart
+          yearStart
         }
       }}
     allProjects {
       title
+      projectLink
       details {
         ... on PartOfXRecord {
           student
@@ -36,14 +40,12 @@ const queryAll = `
         ... on DescriptionRecord {
           description
         }
-        ... on InstitutionRecord {
-          institution
-          institutionLink
-        }
         ... on DurationRecord {
           ongoing
           monthEnd
+          yearEnd
           monthStart
+          yearStart
         }
       }
     }
@@ -69,7 +71,6 @@ const queryAll = `
         }
       }
     }  
-    
   }      
   `
 
@@ -165,32 +166,31 @@ export async function getContentData (titleCodeToTitle : ITitleCodeToTitle){
     const categorizedElement = [
         ...activityList.map(detailsDismantler).map((activity) => {return {
             ...activity,
-            typeOfElement : "activity"
+            typeOfElement : "activity",
         } as IActivityCategorized}),
         ...projectList.map(detailsDismantler).map((project) => {return {
             ...project,
-            typeOfElement : "project"
+            typeOfElement : "project",
         } as IProjectCategorized}),
         ...(awardList.map(detailsDismantler)).map((award) => {return {
             ...award,
             typeOfElement : "award"
         } as IAwardCategorized})
 ]
-
-
-    // const groupedElement : IGroupedElement = {
-    //     "student" : categorizedElement.filter((element : any) => element.partOfStudent),
-    //     "developer" : categorizedElement.filter((element : any) => element.partOfDeveloper),
-    //     "mun" : categorizedElement.filter((element : any) => element.partOfMunEnthusiast)
-    // }
-
-    const groupedElement : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
+    const groupedElementFromNew : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
         const object = {}
-        object[possibleTitleCode] = categorizedElement.filter((element : any) => element[possibleTitleCode])
+        object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]), true)
         return object
     }))
 
-    return groupedElement;
+    const groupedElementFromOld : IGroupedElement = Object.assign({}, ...possibleTitleCodeList.map((possibleTitleCode) => {
+        const object = {}
+        object[possibleTitleCode] = sortElementWrapper(categorizedElement.filter((element : any) => element[possibleTitleCode]), false)
+        return object
+    }))
+    
+    return [groupedElementFromNew, groupedElementFromOld] as const;
+
 }
 
 

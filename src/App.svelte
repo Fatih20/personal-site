@@ -14,7 +14,7 @@
     getTitleCodeToTitleData,
   } from "./data/dataProcessor";
 
-  let contentData: IGroupedElement;
+  let contentData: readonly [IGroupedElement, IGroupedElement];
   let contactData: IContact[];
   let titleCodeToTitleData: ITitleCodeToTitle;
   let pageIsFinishedLoading = false;
@@ -30,7 +30,7 @@
 <main>
   {#if pageIsFinishedLoading}
     <NameSection />
-    <Content />
+    <Content {titleCodeToTitleData} {contentData} />
     <Footer {contactData} />
   {:else}
     <!-- Loading image or something -->
