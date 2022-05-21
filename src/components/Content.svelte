@@ -121,7 +121,7 @@
     <i class="fa-solid fa-caret-up" />
   </button>
   <div class="element-container">
-    {#each filteredElementList as element}
+    {#each filteredElementList as element (element.title)}
       {#if element.typeOfElement === "activity"}
         <Activity activityProps={element} />
       {:else if element.typeOfElement === "project"}
