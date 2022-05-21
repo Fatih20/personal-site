@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { getContactData } from "../data/dataProcessor";
   import type { IContact } from "../data/types";
 
   export let contactData: IContact[];

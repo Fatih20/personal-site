@@ -1,7 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { getContentData } from "../data/dataProcessor";
-  let data;
 </script>
 
 <head>
