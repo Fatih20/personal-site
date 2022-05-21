@@ -35,7 +35,7 @@
 
   $: usedData = fromNew ? dataFromNew : dataFromOld;
 
-  let showAllElement = true;
+  let showAllElement = false;
   $: shownElementList = showAllElement
     ? (usedData[currentTitleCode] as elementCategorizedType[])
     : (usedData[currentTitleCode].slice(0, 1) as elementCategorizedType[]);
@@ -104,6 +104,13 @@
       <i class="fa-solid fa-caret-right" />
     </button>
   </div>
+  <button
+    class="show-toggle"
+    class:toggle-shown={showAllElement}
+    on:click={() => (showAllElement = false)}
+  >
+    <i class="fa-solid fa-caret-up" />
+  </button>
   <div class="element-container">
     {#each filteredElementList as element}
       {#if element.typeOfElement === "activity"}
@@ -115,6 +122,13 @@
       {/if}
     {/each}
   </div>
+  <button
+    class="show-toggle"
+    class:toggle-shown={!showAllElement}
+    on:click={() => (showAllElement = true)}
+  >
+    <i class="fa-solid fa-caret-down" />
+  </button>
 </main>
 
 <style>
@@ -133,8 +147,17 @@
     /* border: solid 1px white; */
   }
 
-  #title {
-    /* border: solid 1px white; */
+  .show-toggle {
+    background-color: var(--foreground-element-color);
+    border: none;
+    color: var(--text-element-color);
+    display: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  .toggle-shown {
+    display: block;
   }
 
   .title-switcher {
