@@ -30,7 +30,7 @@
 <main>
   {#if pageIsFinishedLoading}
     <NameSection />
-    <Content />
+    <Content {titleCodeToTitleData} {contentData} />
     <Footer {contactData} />
   {:else}
     <!-- Loading image or something -->

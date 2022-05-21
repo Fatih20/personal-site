@@ -1,4 +1,29 @@
 <script lang="ts">
+  import type { IGroupedElement, ITitleCodeToTitle } from "../data/types";
+
+  export let contentData: IGroupedElement;
+  export let titleCodeToTitleData: ITitleCodeToTitle;
+
+  $: possibleTitleList = Object.keys(titleCodeToTitleData);
+  $: maxIndex = possibleTitleList.length - 1;
+
+  let nthTitle = 0;
+
+  function changeTitle(increment) {
+    if (increment) {
+      if (nthTitle === maxIndex) {
+        nthTitle = 0;
+      } else {
+        nthTitle += 1;
+      }
+    } else {
+      if (nthTitle === 0) {
+        nthTitle = maxIndex;
+      } else {
+        nthTitle -= 1;
+      }
+    }
+  }
 </script>
 
 <head>
@@ -9,15 +34,15 @@
 
 <main>
   <div class="title-container">
-    <button class="title-switcher">
+    <button class="title-switcher" on:click={() => changeTitle(true)}>
       <i class="fa-solid fa-caret-left" />
     </button>
-    <h1 id="title">Title</h1>
-    <button class="title-switcher">
+    <h1 id="title">{titleCodeToTitleData[possibleTitleList[nthTitle]]}</h1>
+    <button class="title-switcher" on:click={() => changeTitle(false)}>
       <i class="fa-solid fa-caret-right" />
     </button>
   </div>
-  <div class="achievement-container" />
+  <div class="element-container" />
 </main>
 
 <style>
