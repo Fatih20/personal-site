@@ -116,7 +116,7 @@
   <div id="element-list-container">
     <button
       class="show-toggle"
-      class:toggle-shown={showAllElement}
+      class:toggle-shown={showAllElement && usedData.length > 1}
       on:click={() => (showAllElement = false)}
     >
       <i class="fa-solid fa-caret-up" />
