@@ -113,14 +113,14 @@
       <i class="fa-solid fa-caret-right" />
     </button>
   </div>
-  <button
-    class="show-toggle"
-    class:toggle-shown={showAllElement}
-    on:click={() => (showAllElement = false)}
-  >
-    <i class="fa-solid fa-caret-up" />
-  </button>
   <div id="element-list-container">
+    <button
+      class="show-toggle"
+      class:toggle-shown={showAllElement}
+      on:click={() => (showAllElement = false)}
+    >
+      <i class="fa-solid fa-caret-up" />
+    </button>
     {#each filteredElementList as element (element.title)}
       <div class="element-container">
         {#if element.typeOfElement === "activity"}
@@ -132,14 +132,14 @@
         {/if}
       </div>
     {/each}
+    <button
+      class="show-toggle"
+      class:toggle-shown={!showAllElement && usedData.length > 1}
+      on:click={() => (showAllElement = true)}
+    >
+      <i class="fa-solid fa-caret-down" />
+    </button>
   </div>
-  <button
-    class="show-toggle"
-    class:toggle-shown={!showAllElement && usedData.length > 1}
-    on:click={() => (showAllElement = true)}
-  >
-    <i class="fa-solid fa-caret-down" />
-  </button>
 </main>
 
 <style>
@@ -182,6 +182,7 @@
     border: none;
     color: var(--text-element-color);
     display: none;
+    margin: 0;
     padding: 0;
     width: 100%;
   }
@@ -203,6 +204,12 @@
     padding: 0;
 
     /* border: solid 1px white; */
+  }
+
+  #element-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
   }
 
   .element-container {
