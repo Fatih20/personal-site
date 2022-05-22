@@ -43,6 +43,8 @@
     align-items: flex-start;
     border-top: solid 2px var(--text-element-color);
     display: flex;
+    margin-top: 0.5em;
+    padding-top: 0.5em;
   }
 
   #project-link {
