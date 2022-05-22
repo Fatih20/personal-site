@@ -64,7 +64,7 @@ export interface IProjectCategorized {
 export interface IActivityCategorized {
     title : string,
     institution : string,
-    insitutionLink : string,
+    institutionLink : string,
     ongoing: boolean,
     monthStart : number,
     yearStart : number,
@@ -82,7 +82,7 @@ export interface IAwardCategorized {
     yearAchieved: 2021,
     monthAchieved: 11,
     institution : string,
-    insitutionLink : string,
+    institutionLink : string,
     student : boolean,
     developer : boolean,
     mun: boolean,

@@ -1,19 +1,17 @@
 <script lang="ts">
   import type { IAwardCategorized } from "../../data/types";
   import { monthNumberToMonth } from "../../data/utilities";
+  import Title from "./Title.svelte";
 
   export let awardProps: IAwardCategorized;
-  const { title, institution, insitutionLink, monthAchieved, yearAchieved } =
+  const { title, institution, institutionLink, monthAchieved, yearAchieved } =
     awardProps;
 
   const timeCaption = `${monthNumberToMonth[monthAchieved]} ${yearAchieved}`;
 </script>
 
 <main>
-  <h2>{title}</h2>
-  <h3>
-    <span>{timeCaption}</span> | <a href={insitutionLink}>{institution}</a>
-  </h3>
+  <Title {title} {timeCaption} {institution} {institutionLink} />
 </main>
 
 <style>

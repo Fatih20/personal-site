@@ -4,6 +4,7 @@
     monthNumberToMonth,
     timeCaptionGenerator,
   } from "../../data/utilities";
+  import Title from "./Title.svelte";
 
   export let projectProps: IProjectCategorized;
   const {
@@ -21,8 +22,7 @@
 </script>
 
 <main>
-  <h2>{title}</h2>
-  <h3>{timeCaption}</h3>
+  <Title {title} {timeCaption} />
 </main>
 
 <style>
