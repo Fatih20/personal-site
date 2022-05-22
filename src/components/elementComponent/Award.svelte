@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { IAwardCategorized } from "../../data/types";
   import { monthNumberToMonth } from "../../data/utilities";
+  import DescriptionContainer from "./DescriptionContainer.svelte";
   import Title from "./Title.svelte";
 
   export let awardProps: IAwardCategorized;

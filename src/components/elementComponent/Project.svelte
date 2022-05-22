@@ -37,14 +37,14 @@
   main {
     display: flex;
     flex-direction: column;
+    gap: vaR(--gap-between-parts);
   }
 
   #project-link-container {
     align-items: flex-start;
     border-top: solid 2px var(--text-element-color);
     display: flex;
-    margin-top: 0.5em;
-    padding-top: 0.5em;
+    padding-top: var(--gap-between-parts);
   }
 
   #project-link {

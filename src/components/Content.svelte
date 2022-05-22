@@ -213,6 +213,7 @@
   }
 
   .element-container {
+    --gap-between-parts: 0.5em;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

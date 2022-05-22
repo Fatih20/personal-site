@@ -20,7 +20,9 @@
 </main>
 
 <style>
-  #description-container {
-    /* list-style-position: inside; */
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-between-parts);
   }
 </style>
