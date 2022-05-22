@@ -120,15 +120,17 @@
   >
     <i class="fa-solid fa-caret-up" />
   </button>
-  <div class="element-container">
+  <div id="element-list-container">
     {#each filteredElementList as element (element.title)}
-      {#if element.typeOfElement === "activity"}
-        <Activity activityProps={element} />
-      {:else if element.typeOfElement === "project"}
-        <Project projectProps={element} />
-      {:else if element.typeOfElement === "award"}
-        <Award awardProps={element} />
-      {/if}
+      <div class="element-container">
+        {#if element.typeOfElement === "activity"}
+          <Activity activityProps={element} />
+        {:else if element.typeOfElement === "project"}
+          <Project projectProps={element} />
+        {:else if element.typeOfElement === "award"}
+          <Award awardProps={element} />
+        {/if}
+      </div>
     {/each}
   </div>
   <button
@@ -201,5 +203,14 @@
     padding: 0;
 
     /* border: solid 1px white; */
+  }
+
+  .element-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--foreground-element-color);
+    border-radius: 0.4em;
+    padding: 0.75em;
   }
 </style>

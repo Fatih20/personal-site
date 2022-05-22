@@ -21,15 +21,6 @@
 </main>
 
 <style>
-  main {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--foreground-element-color);
-    border-radius: 0.4em;
-    padding: 0.75em;
-  }
-
   #description-container {
     list-style: none;
     /* list-style-position: inside; */
