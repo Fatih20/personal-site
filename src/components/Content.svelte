@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Activity from "./elementComponent/activity.svelte";
-  import Project from "./elementComponent/project.svelte";
-  import Award from "./elementComponent/award.svelte";
+  import Activity from "./elementComponent/Activity.svelte";
+  import Project from "./elementComponent/Project.svelte";
+  import Award from "./elementComponent/Award.svelte";
 
   import type {
     IGroupedElement,
