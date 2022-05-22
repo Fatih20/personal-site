@@ -4,6 +4,7 @@
     monthNumberToMonth,
     timeCaptionGenerator,
   } from "../../data/utilities";
+  import DescriptionContainer from "./DescriptionContainer.svelte";
   import Title from "./Title.svelte";
 
   export let activityProps: IActivityCategorized;
@@ -15,14 +16,11 @@
 
 <main>
   <Title {title} {timeCaption} {institution} {institutionLink} />
-  <div id="description-container">
-    {@html description}
-  </div>
+  <DescriptionContainer {description} />
 </main>
 
 <style>
   #description-container {
-    list-style: none;
     /* list-style-position: inside; */
   }
 </style>
