@@ -31,6 +31,7 @@
   {#if pageIsFinishedLoading}
     <NameSection />
     <Content {titleCodeToTitleData} {contentData} />
+    <div class="spacer" />
     <Footer {contactData} />
   {:else}
     <!-- Loading image or something -->
@@ -39,6 +40,14 @@
 
 <style>
   main {
-    padding: 0 1em;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    min-height: 100vh;
+  }
+
+  .spacer {
+    flex-grow: 1;
   }
 </style>

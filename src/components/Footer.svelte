@@ -54,13 +54,13 @@
 <style>
   main {
     align-items: center;
-    bottom: 0;
+    /* bottom: 0; */
     background-color: var(--background-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: fixed;
-    right: 0;
+    /* position: fixed; */
+    /* right: 0; */
     width: 100%;
   }
   .contact-container {
@@ -90,6 +90,7 @@
     justify-content: center;
     padding: 0.5em;
     gap: 1em;
+    margin: 0;
   }
 
   .fa-envelope {
