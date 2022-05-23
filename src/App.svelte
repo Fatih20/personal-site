@@ -55,9 +55,10 @@
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
+    gap: 1em;
   }
 
   .spacer {
-    /* flex-grow: 1; */
+    flex-grow: 1;
   }
 </style>

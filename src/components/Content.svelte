@@ -194,6 +194,7 @@
     flex-direction: column;
     gap: 1em;
     justify-content: start;
+    width: 100%;
   }
 
   #title-and-toggle-container {
@@ -202,7 +203,7 @@
     flex-direction: column;
     gap: 0.5em;
     justify-content: center;
-    width: 100%;
+    width: min(100%, 400px);
   }
 
   #title-container {
