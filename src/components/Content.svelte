@@ -10,6 +10,7 @@
     visibilityOfElementTypeType,
     typeOfElementList,
     typeOfElement,
+    elementColorCodeType,
   } from "../data/types";
 
   export let contentData: readonly [IGroupedElement, IGroupedElement];
@@ -33,8 +34,6 @@
   }
   $: currentTitleCode = possibleTitleList[nthTitle];
   $: currentTitle = titleCodeToTitleData[currentTitleCode];
-  $: console.log(currentTitleCode);
-  $: console.log(currentTitle);
 
   let fromNew = true;
 
@@ -49,6 +48,12 @@
     project: true,
     activity: true,
     award: true,
+  };
+
+  let elementColorCode: elementColorCodeType = {
+    project: "#64baff",
+    award: "#ffe16b",
+    activity: "#ffa154",
   };
 
   function onlyShowAnElement(elementName: typeOfElement) {
@@ -138,22 +143,32 @@
         <h2
           class="element-category"
           on:click={() => onlyShowAnElement(elementName)}
+          style:text-decoration-color={elementColorCode[elementName]}
         >
           {elementName.toUpperCase()}
         </h2>
       {/each}
     </div>
-    {#each filteredElementList as element (element.title)}
-      <div class="element-container">
-        {#if element.typeOfElement === "activity"}
-          <Activity activityProps={element} />
-        {:else if element.typeOfElement === "project"}
-          <Project projectProps={element} />
-        {:else if element.typeOfElement === "award"}
-          <Award awardProps={element} />
-        {/if}
+    {#if filteredElementList.length > 0}
+      {#each filteredElementList as element (element.title)}
+        <div
+          class="element-container"
+          style:border-color={elementColorCode[element.typeOfElement]}
+        >
+          {#if element.typeOfElement === "activity"}
+            <Activity activityProps={element} />
+          {:else if element.typeOfElement === "project"}
+            <Project projectProps={element} />
+          {:else if element.typeOfElement === "award"}
+            <Award awardProps={element} />
+          {/if}
+        </div>
+      {/each}
+    {:else}
+      <div id="empty-message-container">
+        <h2>Nothing here (yet!)</h2>
       </div>
-    {/each}
+    {/if}
   </div>
 </main>
 
@@ -242,9 +257,12 @@
   }
 
   .element-list-container {
+    align-items: center;
     display: none;
     flex-direction: column;
+    justify-content: center;
     gap: 1em;
+    width: 100%;
   }
 
   .element-shown {
@@ -254,22 +272,31 @@
   .element-category-container {
     align-items: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     gap: 0.5em;
+    width: 100%;
   }
 
   .element-category {
     font-size: 1.15em;
     font-weight: 800;
+    text-decoration: underline;
   }
 
   .element-container {
     --gap-between-parts: 0.5em;
     box-sizing: border-box;
+    border-style: solid;
+    border-radius: 0.4em;
+    border-width: 2px;
     display: flex;
     flex-direction: column;
     background-color: var(--foreground-element-color);
-    border-radius: 0.4em;
     padding: 0.75em;
+    width: 100%;
+  }
+
+  #empty-message-container {
+    padding: 1em;
   }
 </style>
