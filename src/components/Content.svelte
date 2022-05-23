@@ -259,6 +259,7 @@
     padding: 0;
     transition: transform 0.25s;
     transition-timing-function: ease-in-out;
+    user-select: none;
   }
 
   #show-toggle-container {
@@ -293,11 +294,13 @@
   }
 
   .element-category {
+    cursor: pointer;
     font-size: 1.15em;
     font-weight: 800;
     text-decoration: underline;
     transition: filter 0.2s;
     transition-timing-function: ease-in-out;
+    user-select: none;
   }
 
   .element-container {
@@ -315,5 +318,6 @@
 
   #empty-message-container {
     padding: 1em;
+    color: var(--blurred-on-background-color);
   }
 </style>

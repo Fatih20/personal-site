@@ -8,8 +8,11 @@ body {
 body {
   --foreground-element-color: #333;
   --text-element-color: #fff;
+  --blurred-on-background-color: #666;
+  --blurred-on-foreground-color: #1a1a1a;
+  --background-color: #1a1a1a;
 
-  background-color: #1a1a1a;
+  background-color: var(--background-color);
   color: #ffffff;
   margin: 0;
   padding: 8px;
@@ -23,16 +26,7 @@ body * {
 }
 
 a {
-  color: rgb(0, 100, 200);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-a:visited {
-  color: rgb(0, 80, 160);
+  color: inherit;
 }
 
 label {
@@ -65,10 +59,6 @@ button {
 
 button:disabled {
   color: #999;
-}
-
-button:not(:disabled):active {
-  background-color: #ddd;
 }
 
 button:focus {

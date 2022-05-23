@@ -54,9 +54,14 @@
 <style>
   main {
     align-items: center;
+    bottom: 0;
+    background-color: var(--background-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: fixed;
+    right: 0;
+    width: 100%;
   }
   .contact-container {
     align-items: center;
@@ -73,6 +78,7 @@
     display: flex;
     font-size: 2em;
     justify-content: center;
+    margin: 0;
   }
 
   .email-button {
