@@ -23,8 +23,14 @@
 
 <style>
   main {
-    --title-font-size: 1.3em;
-    --subtitle-font-size: 1em;
+    --title-font-size: 1.4em;
+    --subtitle-font-size: 1.1em;
+    --gap-between-title-element: 0.25em;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-between-title-element);
+    padding-bottom: var(--gap-between-title-element);
+    border-bottom: solid 2px var(--line-color);
   }
   #title {
     font-size: var(--title-font-size);
@@ -32,6 +38,7 @@
 
   .subtitle {
     font-size: var(--subtitle-font-size);
+    font-weight: 600;
   }
 
   #institution:hover {

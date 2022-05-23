@@ -168,6 +168,7 @@
         <div
           class="element-container"
           style:border-color={elementColorCode[element.typeOfElement]}
+          style={`--line-color: ${elementColorCode[element.typeOfElement]}`}
         >
           {#if element.typeOfElement === "activity"}
             <Activity activityProps={element} />

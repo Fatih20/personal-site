@@ -42,7 +42,7 @@
 
   #project-link-container {
     align-items: flex-start;
-    border-top: solid 2px var(--text-element-color);
+    border-top: solid 2px var(--line-color);
     display: flex;
     padding-top: var(--gap-between-parts);
   }
