@@ -83,7 +83,8 @@
 
   .email-button {
     align-items: center;
-    background-color: var(--foreground-element-color);
+    /* background-color: var(--foreground-element-color); */
+    background-color: rgba(0, 0, 0, 0);
     border: none;
     color: var(--text-element-color);
     display: flex;
@@ -91,6 +92,11 @@
     padding: 0.5em;
     gap: 1em;
     margin: 0;
+  }
+
+  .email-button p {
+    font-size: 1.2em;
+    font-weight: 500;
   }
 
   .fa-envelope {

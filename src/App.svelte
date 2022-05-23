@@ -29,8 +29,10 @@
 
 <main>
   {#if pageIsFinishedLoading}
-    <NameSection />
-    <Content {titleCodeToTitleData} {contentData} />
+    <div id="main-content-container">
+      <NameSection />
+      <Content {titleCodeToTitleData} {contentData} />
+    </div>
     <div class="spacer" />
     <Footer {contactData} />
   {:else}
@@ -47,7 +49,15 @@
     min-height: 100vh;
   }
 
-  .spacer {
+  #main-content-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
+    justify-content: center;
+  }
+
+  .spacer {
+    /* flex-grow: 1; */
   }
 </style>
