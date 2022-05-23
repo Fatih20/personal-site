@@ -39,9 +39,9 @@
   $: console.log(usedData);
 
   let showAllElement = false;
-  $: shownElementList = showAllElement
-    ? (usedData as elementCategorizedType[])
-    : (usedData.slice(0, 1) as elementCategorizedType[]);
+  $: shownElementList = <elementCategorizedType[]>(
+    (showAllElement ? usedData : [])
+  );
 
   $: console.log(shownElementList);
 
@@ -102,25 +102,30 @@
 </head>
 
 <main>
-  <div class="title-container">
-    <button class="title-switcher" on:click={() => (nthTitle += 1)}>
-      <i class="fa-solid fa-caret-left" />
-    </button>
-    <div id="title-box">
-      <h1 id="title">{currentTitle}</h1>
+  <div id="title-box">
+    <div id="title-container">
+      <button class="title-switcher" on:click={() => (nthTitle += 1)}>
+        <i class="fa-solid fa-caret-left" />
+      </button>
+      <div id="title-box">
+        <h1 id="title">{currentTitle}</h1>
+      </div>
+      <button class="title-switcher" on:click={() => (nthTitle -= 1)}>
+        <i class="fa-solid fa-caret-right" />
+      </button>
     </div>
-    <button class="title-switcher" on:click={() => (nthTitle -= 1)}>
-      <i class="fa-solid fa-caret-right" />
-    </button>
+    <div id="show-toggle-container">
+      <button
+        class="show-toggle"
+        class:toggle-shown={usedData.length >= 1}
+        class:rotated-toggle={showAllElement}
+        on:click={() => (showAllElement = !showAllElement)}
+      >
+        <i class="fa-solid fa-caret-down" />
+      </button>
+    </div>
   </div>
   <div id="element-list-container">
-    <button
-      class="show-toggle"
-      class:toggle-shown={showAllElement && usedData.length > 1}
-      on:click={() => (showAllElement = false)}
-    >
-      <i class="fa-solid fa-caret-up" />
-    </button>
     {#each filteredElementList as element (element.title)}
       <div class="element-container">
         {#if element.typeOfElement === "activity"}
@@ -132,13 +137,6 @@
         {/if}
       </div>
     {/each}
-    <button
-      class="show-toggle"
-      class:toggle-shown={!showAllElement && usedData.length > 1}
-      on:click={() => (showAllElement = true)}
-    >
-      <i class="fa-solid fa-caret-down" />
-    </button>
   </div>
 </main>
 
@@ -151,10 +149,18 @@
     justify-content: start;
   }
 
-  .title-container {
-    align-items: flex-start;
+  #title-box {
+    align-items: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    width: 100%;
+  }
+
+  #title-container {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr;
     text-align: center;
     width: 100%;
 
@@ -177,20 +183,6 @@
     /* border: solid 1px white; */
   }
 
-  .show-toggle {
-    background-color: var(--foreground-element-color);
-    border: none;
-    color: var(--text-element-color);
-    display: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-
-  .toggle-shown {
-    display: block;
-  }
-
   .title-switcher {
     align-items: center;
     background-color: rgba(0, 0, 0, 0);
@@ -204,6 +196,35 @@
     padding: 0;
 
     /* border: solid 1px white; */
+  }
+  .show-toggle {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: none;
+    font-size: 2em;
+    margin: 0;
+    justify-content: center;
+    padding: 0;
+    transition: transform 0.25s;
+    transition-timing-function: ease-in-out;
+    grid-column: 2/3;
+  }
+
+  #show-toggle-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto 1fr;
+  }
+
+  .rotated-toggle {
+    transform: rotate(180deg);
+  }
+
+  .toggle-shown {
+    display: flex;
   }
 
   #element-list-container {
