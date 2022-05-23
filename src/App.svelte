@@ -29,6 +29,7 @@
 
 <main>
   {#if pageIsFinishedLoading}
+    <div class="spacer" />
     <div id="main-content-container">
       <NameSection />
       <Content {titleCodeToTitleData} {contentData} />
@@ -53,7 +54,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    /* flex-grow: 1; */
     justify-content: center;
     gap: 1em;
   }
