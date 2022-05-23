@@ -3,11 +3,13 @@
   import Project from "./elementComponent/Project.svelte";
   import Award from "./elementComponent/Award.svelte";
 
-  import type {
+  import {
     IGroupedElement,
     ITitleCodeToTitle,
     elementCategorizedType,
     visibilityOfElementTypeType,
+    typeOfElementList,
+    typeOfElement,
   } from "../data/types";
 
   export let contentData: readonly [IGroupedElement, IGroupedElement];
@@ -20,7 +22,8 @@
   $: possibleTitleList = Object.keys(titleCodeToTitleData);
   $: maxIndex = possibleTitleList.length - 1;
 
-  let nthTitle = 1;
+  let nthTitle = 0;
+
   $: {
     if (nthTitle > maxIndex) {
       nthTitle = 0;
@@ -35,13 +38,9 @@
 
   let fromNew = true;
 
-  $: usedData = (fromNew ? dataFromNew : dataFromOld)[currentTitleCode];
-  $: console.log(usedData);
+  $: shownElementList = (fromNew ? dataFromNew : dataFromOld)[currentTitleCode];
 
   let showAllElement = false;
-  $: shownElementList = <elementCategorizedType[]>(
-    (showAllElement ? usedData : [])
-  );
 
   $: console.log(shownElementList);
 
@@ -51,6 +50,14 @@
     activity: true,
     award: true,
   };
+
+  function onlyShowAnElement(elementName: typeOfElement) {
+    Object.keys(visibilityOfElementType).forEach((element) => {
+      visibilityOfElementType[element] = false;
+    });
+
+    visibilityOfElementType[elementName] = true;
+  }
 
   function filteredElementListGenerator(
     elementList: elementCategorizedType[],
@@ -102,7 +109,7 @@
 </head>
 
 <main>
-  <div id="title-box">
+  <div id="title-and-toggle-container">
     <div id="title-container">
       <button class="title-switcher" on:click={() => (nthTitle += 1)}>
         <i class="fa-solid fa-caret-left" />
@@ -117,7 +124,7 @@
     <div id="show-toggle-container">
       <button
         class="show-toggle"
-        class:toggle-shown={usedData.length >= 1}
+        class:toggle-shown={shownElementList.length >= 1}
         class:rotated-toggle={showAllElement}
         on:click={() => (showAllElement = !showAllElement)}
       >
@@ -125,7 +132,17 @@
       </button>
     </div>
   </div>
-  <div id="element-list-container">
+  <div class="element-list-container" class:element-shown={showAllElement}>
+    <div class="element-category-container">
+      {#each typeOfElementList as elementName (elementName)}
+        <h2
+          class="element-category"
+          on:click={() => onlyShowAnElement(elementName)}
+        >
+          {elementName.toUpperCase()}
+        </h2>
+      {/each}
+    </div>
     {#each filteredElementList as element (element.title)}
       <div class="element-container">
         {#if element.typeOfElement === "activity"}
@@ -149,10 +166,11 @@
     justify-content: start;
   }
 
-  #title-box {
+  #title-and-toggle-container {
     align-items: center;
     display: flex;
     flex-direction: column;
+    gap: 0.5em;
     justify-content: center;
     width: 100%;
   }
@@ -203,34 +221,46 @@
     border: none;
     color: white;
     cursor: pointer;
-    display: none;
+    display: flex;
     font-size: 2em;
+    grid-column: 2/3;
     margin: 0;
     justify-content: center;
     padding: 0;
     transition: transform 0.25s;
     transition-timing-function: ease-in-out;
-    grid-column: 2/3;
   }
 
   #show-toggle-container {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto 1fr;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr;
   }
 
   .rotated-toggle {
     transform: rotate(180deg);
   }
 
-  .toggle-shown {
+  .element-list-container {
+    display: none;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .element-shown {
     display: flex;
   }
 
-  #element-list-container {
+  .element-category-container {
+    align-items: center;
     display: flex;
-    flex-direction: column;
-    gap: 1em;
+    justify-content: center;
+    gap: 0.5em;
+  }
+
+  .element-category {
+    font-size: 1.15em;
+    font-weight: 800;
   }
 
   .element-container {
