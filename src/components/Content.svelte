@@ -227,6 +227,7 @@
 
   #title {
     font-size: 1.5em;
+    font-weight: 600;
 
     /* border: solid 1px white; */
   }
@@ -296,7 +297,7 @@
   .element-category {
     cursor: pointer;
     font-size: 1.15em;
-    font-weight: 800;
+    font-weight: 600;
     text-decoration: underline;
     transition: filter 0.2s;
     transition-timing-function: ease-in-out;
