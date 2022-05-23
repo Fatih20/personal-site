@@ -159,7 +159,7 @@
             ? "none"
             : "opacity(50%)"}
         >
-          {elementName.toUpperCase()}
+          {elementName.slice(0, 1).toUpperCase() + elementName.slice(1)}
         </h2>
       {/each}
     </div>
@@ -189,12 +189,14 @@
 
 <style>
   main {
+    --max-width-of-element: 400px;
+    --width-of-element: min(100%, var(--max-width-of-element));
     align-items: center;
     display: flex;
     flex-direction: column;
     gap: 1em;
     justify-content: start;
-    width: 100%;
+    width: var(--width-of-element);
   }
 
   #title-and-toggle-container {
@@ -203,7 +205,7 @@
     flex-direction: column;
     gap: 0.5em;
     justify-content: center;
-    width: min(100%, 400px);
+    width: 100%;
   }
 
   #title-container {

@@ -52,10 +52,12 @@
 
   #main-content-container {
     align-items: center;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     /* flex-grow: 1; */
     justify-content: center;
+    padding: 0 0 2em 0;
     gap: 1em;
   }
 
