@@ -12,11 +12,13 @@
     typeOfElement,
     elementColorCodeType,
   } from "../data/types";
+  import { element } from "svelte/internal";
 
   export let contentData: readonly [IGroupedElement, IGroupedElement];
   export let titleCodeToTitleData: ITitleCodeToTitle;
 
   type ongoingStatusSeenType = "all" | "ongoing" | "done";
+  type elementShownType = typeOfElement | "all";
 
   $: [dataFromNew, dataFromOld] = contentData;
 
@@ -41,8 +43,6 @@
 
   let showAllElement = false;
 
-  $: console.log(shownElementList);
-
   let ongoingStatusSeen: ongoingStatusSeenType = "all";
   let visibilityOfElementType: visibilityOfElementTypeType = {
     project: true,
@@ -50,18 +50,25 @@
     award: true,
   };
 
+  let elementShown = "all" as elementShownType;
+
   let elementColorCode: elementColorCodeType = {
     project: "#64baff",
     award: "#ffe16b",
     activity: "#ffa154",
   };
 
-  function onlyShowAnElement(elementName: typeOfElement) {
-    Object.keys(visibilityOfElementType).forEach((element) => {
-      visibilityOfElementType[element] = false;
-    });
-
-    visibilityOfElementType[elementName] = true;
+  function showAnElement(elementShownName: elementShownType) {
+    if (elementShownName !== "all") {
+      Object.keys(visibilityOfElementType).forEach((element) => {
+        visibilityOfElementType[element] = false;
+      });
+      visibilityOfElementType[elementShownName] = true;
+    } else {
+      Object.keys(visibilityOfElementType).forEach((element) => {
+        visibilityOfElementType[element] = true;
+      });
+    }
   }
 
   function filteredElementListGenerator(
@@ -97,6 +104,8 @@
 
     return result;
   }
+
+  $: showAnElement(elementShown);
 
   $: filteredElementList = filteredElementListGenerator(
     shownElementList,
@@ -142,8 +151,13 @@
       {#each typeOfElementList as elementName (elementName)}
         <h2
           class="element-category"
-          on:click={() => onlyShowAnElement(elementName)}
+          on:click={elementShown === elementName
+            ? () => (elementShown = "all")
+            : () => (elementShown = elementName)}
           style:text-decoration-color={elementColorCode[elementName]}
+          style:filter={elementShown === elementName || elementShown === "all"
+            ? "none"
+            : "opacity(50%)"}
         >
           {elementName.toUpperCase()}
         </h2>
@@ -281,6 +295,8 @@
     font-size: 1.15em;
     font-weight: 800;
     text-decoration: underline;
+    transition: filter 0.2s;
+    transition-timing-function: ease-in-out;
   }
 
   .element-container {
